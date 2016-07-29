@@ -11,6 +11,11 @@ once_flag CPP_0x_Singleton::_once;
 
 int main()
 {
+	double boost_time;
+	double gof_time;
+	double cpp0x_time;
+	double cpp11_time;
+
 	cout << "How many times would you like to loop? ";
 	unsigned numCall = 0;
 	cin >> numCall;
@@ -32,6 +37,7 @@ int main()
 		for (auto& t : threads)
 			t.join();
 
+		boost_time = t.elapsed();
 		cout << "Time for Boost Singleton to complete " << numCall << " times: ";
 	}
 
@@ -46,7 +52,8 @@ int main()
 			ss << "p" << i;
 			auto& ss = GoF_Fixed_Singleton::instance();
 		}
-
+		
+		gof_time = t.elapsed();
 		cout << "Time for Gof Fixed to complete " << numCall << " times: ";
 	}
 
@@ -67,6 +74,7 @@ int main()
 		for (auto& t : threads)
 			t.join();
 
+		cpp0x_time = t.elapsed();
 		cout << "Time for C++ 0x to complete " << numCall << " times: ";
 	}
 
@@ -82,12 +90,16 @@ int main()
 					i + 1
 				)
 			);
-
+		
 		// wait for all threads to finish
 		for (auto& t : threads)
 			t.join();
 
+		cpp11_time = t.elapsed();
 		cout << "Time for C++ 11 to complete " << numCall << " times: ";
 	}
+
+
+	//Percentages
 
 }
