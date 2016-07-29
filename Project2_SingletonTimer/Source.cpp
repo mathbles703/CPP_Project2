@@ -21,84 +21,77 @@ int main(int argc, char *argv[])
 	numCall = atoi(argv[1]);
 	boost::timer t;
 
-	//Boost
+	//Boost Singleton Test
 	{
 		t.restart();
-		for (size_t i = 0; i < numCall; ++i) {
+		for (size_t i = 0; i < numCall; ++i) 
 			BoostSingleton::instance();
-		}
-
+		
 		boost_time = t.elapsed();
-		cout << setw(40) << left << "Time for Boost Singleton to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << boost_time << endl;
-
+		cout << setw(40) << left << "Time for Boost Singleton to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << boost_time << " sec." << endl;
 	}
 
-	//cout << "Time with more precision for Boost is: " << setiosflags(ios::fixed) << setprecision(6) << boost_time;
-	//GoF Fixed
+	//GoF Fixed Singleton Test
 	{
 		Object& o = GoF_Fixed_Singleton::instance();
 		stringstream ss;
 
 		t.restart();
-		for (size_t i = 0; i < numCall; ++i) {
+		for (size_t i = 0; i < numCall; ++i) 
 			Object& o = GoF_Fixed_Singleton::instance();
-		}
-		
 
 		gof_time = t.elapsed();
-		cout << setw(40) << left << "Time for Gof Fixed to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << gof_time << endl;
-
+		cout << setw(40) << left << "Time for Gof Fixed to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << gof_time << " sec." << endl;
 	}
 
 
-	//C++ 0x
+	//C++ 0x (call once) Singleton Test
 	{
 		t.restart();
-		for (size_t i = 0; i < numCall; ++i) {
+		for (size_t i = 0; i < numCall; ++i) 
 			CPP_0x_Singleton::instance();
-		}
 
 		cpp0x_time = t.elapsed();
-		cout << setw(40) << left << "Time for C++ 0x to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp0x_time << endl;
-
+		cout << setw(40) << left << "Time for C++ 0x to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp0x_time << " sec." << endl;
 	}
 
 
-	//C++ 11
+	//C++ 11 (static) Singleton Test
 	{
 		t.restart();
 		for (size_t i = 0; i < numCall; ++i)
 			CPP_11_Singleton::instance();
 
 		cpp11_time = t.elapsed();
-		cout << setw(40) << left << "Time for C++ 11 to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp11_time << endl;
-
+		cout << setw(40) << left << "Time for C++ 11 to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp11_time << " sec." << endl;
 	}
 
 
-	//Percentages
+	//Holds a reference to the timing of the slowest singleton test
 	double worstTime = std::max({ boost_time, cpp0x_time, cpp11_time, gof_time });
-	cout << "\nWorst time : " << worstTime << " s\n" << endl;
 
-
-	//cout << setw(40) << left << "Boost Singleton is faster by" << setw(10) << right << 100-(boost_time / worstTime)*100 << "%" << endl;
-	//cout << setw(40) << left << "GoF Fixed is " << setw(10) << right << 100 - (gof_time / worstTime) * 100 << "%" << endl;
-	//cout << setw(40) << left << "C++ 0x Singleton is " << setw(10) << right << 100 - (cpp0x_time / worstTime) * 100 << "%" << endl;
-	//cout << setw(40) << left << "C++ 11 Singleton is " << setw(10) << right << 100 - (cpp11_time / worstTime) * 100 << "%" << endl;
-
+	///spacing for nice output
+	cout << endl;
+	
+	//Vector will hold a pair
+	//Each pair will hold a string representing the specific singleton test variation title
+	//and will hold a double representing the percentage of that test compared to the slowest test
 	std::vector <pair<string, double>> allSingletonTiming;
 
+	//push the pairs into the vector
 	allSingletonTiming.push_back(std::make_pair("Boost Singleton is faster by ", 100 - (boost_time / worstTime) * 100));
 	allSingletonTiming.push_back(std::make_pair("GoF Fixed is faster by ", 100 - (gof_time / worstTime) * 100));
 	allSingletonTiming.push_back(std::make_pair("C++ 0x Singleton is faster by ", 100 - (cpp0x_time / worstTime) * 100));
 	allSingletonTiming.push_back(std::make_pair("C++ 11 Singleton is faster by ", 100 - (cpp11_time / worstTime) * 100));
 
+	//sort the vector based on the elapsed time.
+	//Display fastest to slowest
 	std::sort(allSingletonTiming.begin(), allSingletonTiming.end(),
 		boost::bind(&std::pair<string, double>::second, _1) >
 		boost::bind(&std::pair<string, double>::second, _2));
 
+	//iterate through pair and format the output
 	for (vector<pair<string,double>>::const_iterator it = allSingletonTiming.begin(); it < allSingletonTiming.end(); it++)
-	{
 		cout << setw(40) << left << it->first << setiosflags(ios::fixed) << setprecision(3) << setw(9) << right << it->second << "%" << endl;
-	}
+	
 }
