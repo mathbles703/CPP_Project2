@@ -21,13 +21,13 @@
     <ClCompile Include="GoF_Fixed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Boost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C++_0x.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C++_11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoostSingleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\obj.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -142,13 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Boost.cpp" />
+    <ClCompile Include="BoostSingleton.cpp" />
     <ClCompile Include="C++_0x.cpp" />
     <ClCompile Include="C++_11.cpp" />
     <ClCompile Include="GoF_Fixed.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\obj.hpp" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="Header.h" />
   </ItemGroup>
