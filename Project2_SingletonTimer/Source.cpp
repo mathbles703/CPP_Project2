@@ -1,6 +1,7 @@
 #include "Header.h"
 #include "Classes.h"
 #include <sstream>
+#include <iomanip>
 using namespace std;
 
 boost::scoped_ptr<BoostSingleton> BoostSingleton::_instance;
@@ -18,66 +19,70 @@ int main(int argc, char *argv[])
 
 	unsigned numCall = 0;
 	numCall = atoi(argv[1]);
+	boost::timer t;
 
 	//Boost
 	{
-		boost::progress_timer t;
-		
+		t.restart();
 		for (size_t i = 0; i < numCall; ++i) {
 			BoostSingleton::instance();
 		}
 
-		cout << "Time for Boost Singleton to complete " << numCall << " times: ";
 		boost_time = t.elapsed();
+		cout << setw(40) << left << "Time for Boost Singleton to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << boost_time << endl;
+
 	}
 
-
+	//cout << "Time with more precision for Boost is: " << setiosflags(ios::fixed) << setprecision(6) << boost_time;
 	//GoF Fixed
 	{
 		Object& o = GoF_Fixed_Singleton::instance();
 		stringstream ss;
 
-		boost::progress_timer t;
+		t.restart();
 		for (size_t i = 0; i < numCall; ++i) {
 			Object& o = GoF_Fixed_Singleton::instance();
 		}
 		
 
-		cout << "Time for Gof Fixed to complete " << numCall << " times: ";
 		gof_time = t.elapsed();
+		cout << setw(40) << left << "Time for Gof Fixed to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << gof_time << endl;
+
 	}
 
 
 	//C++ 0x
 	{
-		boost::progress_timer t;
+		t.restart();
 		for (size_t i = 0; i < numCall; ++i) {
 			CPP_0x_Singleton::instance();
 		}
 
-		cout << "Time for C++ 0x to complete " << numCall << " times: ";
 		cpp0x_time = t.elapsed();
+		cout << setw(40) << left << "Time for C++ 0x to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << cpp0x_time << endl;
+
 	}
 
 
 	//C++ 11
 	{
-		boost::progress_timer t;
+		t.restart();
 		for (size_t i = 0; i < numCall; ++i)
 			CPP_11_Singleton::instance();
 
-		cout << "Time for C++ 11 to complete " << numCall << " times: ";
 		cpp11_time = t.elapsed();
+		cout << setw(40) << left << "Time for C++ 11 to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << cpp11_time << endl;
+
 	}
 
 
 	//Percentages
 	double worstTime = std::max({ boost_time, cpp0x_time, cpp11_time, gof_time });
-	cout << "Worst time : " << worstTime << " s\n" << endl;
+	cout << "\nWorst time : " << worstTime << " s\n" << endl;
 
 
-	cout << "Boost Singleton is " << 100-(boost_time / worstTime)*100 << "% faster than worst time." << endl;
-	cout << "GoF Fixed is " << 100 - (gof_time / worstTime) * 100 << "% faster than worst time." << endl;
-	cout << "C++ 0x Singleton is " << 100 - (cpp0x_time / worstTime) * 100 << "% faster than worst time." << endl;
-	cout << "C++ 11 Singleton is " << 100 - (cpp11_time / worstTime) * 100 << "% faster than worst time." << endl;
+	cout << setw(40) << left << "Boost Singleton is faster by" << setw(10) << right << 100-(boost_time / worstTime)*100 << "%" << endl;
+	cout << setw(40) << left << "GoF Fixed is " << setw(10) << right << 100 - (gof_time / worstTime) * 100 << "%" << endl;
+	cout << setw(40) << left << "C++ 0x Singleton is " << setw(10) << right << 100 - (cpp0x_time / worstTime) * 100 << "%" << endl;
+	cout << setw(40) << left << "C++ 11 Singleton is " << setw(10) << right << 100 - (cpp11_time / worstTime) * 100 << "%" << endl;
 }
