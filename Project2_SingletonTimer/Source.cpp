@@ -37,8 +37,9 @@ int main()
 		for (auto& t : threads)
 			t.join();
 
-		boost_time = t.elapsed();
+
 		cout << "Time for Boost Singleton to complete " << numCall << " times: ";
+		boost_time = t.elapsed();
 	}
 
 
@@ -53,8 +54,9 @@ int main()
 			auto& ss = GoF_Fixed_Singleton::instance();
 		}
 		
-		gof_time = t.elapsed();
+
 		cout << "Time for Gof Fixed to complete " << numCall << " times: ";
+		gof_time = t.elapsed();
 	}
 
 
@@ -74,8 +76,9 @@ int main()
 		for (auto& t : threads)
 			t.join();
 
-		cpp0x_time = t.elapsed();
+
 		cout << "Time for C++ 0x to complete " << numCall << " times: ";
+		cpp0x_time = t.elapsed();
 	}
 
 
@@ -95,11 +98,19 @@ int main()
 		for (auto& t : threads)
 			t.join();
 
-		cpp11_time = t.elapsed();
+
 		cout << "Time for C++ 11 to complete " << numCall << " times: ";
+		cpp11_time = t.elapsed();
 	}
 
 
 	//Percentages
+	double worstTime = std::max({ boost_time, cpp0x_time, cpp11_time, gof_time });
+	cout << "Worst time : " << worstTime << " s\n" << endl;
 
+
+	cout << "Boost Singleton is " << 100-(boost_time / worstTime)*100 << "% faster than worst time." << endl;
+	cout << "GoF Fixed is " << 100 - (gof_time / worstTime) * 100 << "% faster than worst time." << endl;
+	cout << "C++ 0x Singleton is " << 100 - (cpp0x_time / worstTime) * 100 << "% faster than worst time." << endl;
+	cout << "C++ 11 Singleton is " << 100 - (cpp11_time / worstTime) * 100 << "% faster than worst time." << endl;
 }
