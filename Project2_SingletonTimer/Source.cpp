@@ -6,6 +6,8 @@ using namespace std;
 boost::scoped_ptr<BoostSingleton> BoostSingleton::_instance;
 boost::mutex BoostSingleton::_mtx;
 GoF_Fixed_Singleton* GoF_Fixed_Singleton::_instance = nullptr;
+unique_ptr<CPP_0x_Singleton> CPP_0x_Singleton::_instance;
+once_flag CPP_0x_Singleton::_once;
 
 int main()
 {
@@ -46,6 +48,46 @@ int main()
 		}
 
 		cout << "Time for Gof Fixed to complete " << numCall << " times: ";
+	}
+
+
+	//C++ 0x
+	{
+		boost::progress_timer t;
+		vector<thread> threads;
+		for (size_t i = 0; i < numCall; ++i)
+			threads.push_back(
+				thread(
+					[](int id) { CPP_0x_Singleton::instance(); },
+					i + 1
+				)
+			);
+
+		// wait for all threads to finish
+		for (auto& t : threads)
+			t.join();
+
+		cout << "Time for C++ 0x to complete " << numCall << " times: ";
+	}
+
+
+	//C++ 11
+	{
+		boost::progress_timer t;
+		vector<thread> threads;
+		for (size_t i = 0; i < numCall; ++i)
+			threads.push_back(
+				thread(
+					[](int id) { CPP_11_Singleton::instance(); },
+					i + 1
+				)
+			);
+
+		// wait for all threads to finish
+		for (auto& t : threads)
+			t.join();
+
+		cout << "Time for C++ 11 to complete " << numCall << " times: ";
 	}
 
 }
