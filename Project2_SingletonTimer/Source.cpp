@@ -17,9 +17,7 @@ int main(int argc, char *argv[])
 	double cpp11_time;
 
 	unsigned numCall = 0;
-	stringstream convert(argv[1]);
-	convert >> numCall;
-	numCall = (unsigned)argv[1];
+	numCall = atoi(argv[1]);
 
 	//Boost
 	{
