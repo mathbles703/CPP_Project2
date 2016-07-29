@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		}
 
 		boost_time = t.elapsed();
-		cout << setw(40) << left << "Time for Boost Singleton to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << boost_time << endl;
+		cout << setw(40) << left << "Time for Boost Singleton to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << boost_time << endl;
 
 	}
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		
 
 		gof_time = t.elapsed();
-		cout << setw(40) << left << "Time for Gof Fixed to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << gof_time << endl;
+		cout << setw(40) << left << "Time for Gof Fixed to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << gof_time << endl;
 
 	}
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		}
 
 		cpp0x_time = t.elapsed();
-		cout << setw(40) << left << "Time for C++ 0x to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << cpp0x_time << endl;
+		cout << setw(40) << left << "Time for C++ 0x to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp0x_time << endl;
 
 	}
 
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 			CPP_11_Singleton::instance();
 
 		cpp11_time = t.elapsed();
-		cout << setw(40) << left << "Time for C++ 11 to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(8) << right << cpp11_time << endl;
+		cout << setw(40) << left << "Time for C++ 11 to complete: " << setiosflags(ios::fixed) << setprecision(6) << setw(10) << right << cpp11_time << endl;
 
 	}
 
@@ -81,8 +81,24 @@ int main(int argc, char *argv[])
 	cout << "\nWorst time : " << worstTime << " s\n" << endl;
 
 
-	cout << setw(40) << left << "Boost Singleton is faster by" << setw(10) << right << 100-(boost_time / worstTime)*100 << "%" << endl;
-	cout << setw(40) << left << "GoF Fixed is " << setw(10) << right << 100 - (gof_time / worstTime) * 100 << "%" << endl;
-	cout << setw(40) << left << "C++ 0x Singleton is " << setw(10) << right << 100 - (cpp0x_time / worstTime) * 100 << "%" << endl;
-	cout << setw(40) << left << "C++ 11 Singleton is " << setw(10) << right << 100 - (cpp11_time / worstTime) * 100 << "%" << endl;
+	//cout << setw(40) << left << "Boost Singleton is faster by" << setw(10) << right << 100-(boost_time / worstTime)*100 << "%" << endl;
+	//cout << setw(40) << left << "GoF Fixed is " << setw(10) << right << 100 - (gof_time / worstTime) * 100 << "%" << endl;
+	//cout << setw(40) << left << "C++ 0x Singleton is " << setw(10) << right << 100 - (cpp0x_time / worstTime) * 100 << "%" << endl;
+	//cout << setw(40) << left << "C++ 11 Singleton is " << setw(10) << right << 100 - (cpp11_time / worstTime) * 100 << "%" << endl;
+
+	std::vector <pair<string, double>> allSingletonTiming;
+
+	allSingletonTiming.push_back(std::make_pair("Boost Singleton is faster by ", 100 - (boost_time / worstTime) * 100));
+	allSingletonTiming.push_back(std::make_pair("GoF Fixed is faster by ", 100 - (gof_time / worstTime) * 100));
+	allSingletonTiming.push_back(std::make_pair("C++ 0x Singleton is faster by ", 100 - (cpp0x_time / worstTime) * 100));
+	allSingletonTiming.push_back(std::make_pair("C++ 11 Singleton is faster by ", 100 - (cpp11_time / worstTime) * 100));
+
+	std::sort(allSingletonTiming.begin(), allSingletonTiming.end(),
+		boost::bind(&std::pair<string, double>::second, _1) >
+		boost::bind(&std::pair<string, double>::second, _2));
+
+	for (vector<pair<string,double>>::const_iterator it = allSingletonTiming.begin(); it < allSingletonTiming.end(); it++)
+	{
+		cout << setw(40) << left << it->first << setiosflags(ios::fixed) << setprecision(3) << setw(9) << right << it->second << "%" << endl;
+	}
 }
