@@ -9,34 +9,25 @@ GoF_Fixed_Singleton* GoF_Fixed_Singleton::_instance = nullptr;
 unique_ptr<CPP_0x_Singleton> CPP_0x_Singleton::_instance;
 once_flag CPP_0x_Singleton::_once;
 
-int main()
+int main(int argc, char *argv[])
 {
 	double boost_time;
 	double gof_time;
 	double cpp0x_time;
 	double cpp11_time;
 
-	cout << "How many times would you like to loop? ";
 	unsigned numCall = 0;
-	cin >> numCall;
-	cout << "--------------------------------------" << endl;
+	stringstream convert(argv[1]);
+	convert >> numCall;
+	numCall = (unsigned)argv[1];
+
 	//Boost
 	{
 		boost::progress_timer t;
 		
-		vector<boost::thread> threads;
 		for (size_t i = 0; i < numCall; ++i) {
-			threads.push_back(
-				boost::thread(
-					[](int id) { BoostSingleton::instance(); },
-					i + 1
-				)
-			);
+			BoostSingleton::instance();
 		}
-		// wait for all threads to finish
-		for (auto& t : threads)
-			t.join();
-
 
 		cout << "Time for Boost Singleton to complete " << numCall << " times: ";
 		boost_time = t.elapsed();
@@ -50,8 +41,7 @@ int main()
 
 		boost::progress_timer t;
 		for (size_t i = 0; i < numCall; ++i) {
-			ss << "p" << i;
-			auto& ss = GoF_Fixed_Singleton::instance();
+			Object& o = GoF_Fixed_Singleton::instance();
 		}
 		
 
@@ -63,19 +53,9 @@ int main()
 	//C++ 0x
 	{
 		boost::progress_timer t;
-		vector<thread> threads;
-		for (size_t i = 0; i < numCall; ++i)
-			threads.push_back(
-				thread(
-					[](int id) { CPP_0x_Singleton::instance(); },
-					i + 1
-				)
-			);
-
-		// wait for all threads to finish
-		for (auto& t : threads)
-			t.join();
-
+		for (size_t i = 0; i < numCall; ++i) {
+			CPP_0x_Singleton::instance();
+		}
 
 		cout << "Time for C++ 0x to complete " << numCall << " times: ";
 		cpp0x_time = t.elapsed();
@@ -85,19 +65,8 @@ int main()
 	//C++ 11
 	{
 		boost::progress_timer t;
-		vector<thread> threads;
 		for (size_t i = 0; i < numCall; ++i)
-			threads.push_back(
-				thread(
-					[](int id) { CPP_11_Singleton::instance(); },
-					i + 1
-				)
-			);
-		
-		// wait for all threads to finish
-		for (auto& t : threads)
-			t.join();
-
+			CPP_11_Singleton::instance();
 
 		cout << "Time for C++ 11 to complete " << numCall << " times: ";
 		cpp11_time = t.elapsed();
