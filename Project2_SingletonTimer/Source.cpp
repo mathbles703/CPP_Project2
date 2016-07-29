@@ -1,5 +1,6 @@
 #include "Header.h"
 #include "Classes.h"
+#include <sstream>
 using namespace std;
 
 boost::scoped_ptr<BoostSingleton> BoostSingleton::_instance;
@@ -11,7 +12,7 @@ int main()
 	cout << "How many times would you like to loop? ";
 	unsigned numCall = 0;
 	cin >> numCall;
-
+	cout << "--------------------------------------" << endl;
 	//Boost
 	{
 		boost::progress_timer t;
@@ -36,10 +37,12 @@ int main()
 	//GoF Fixed
 	{
 		Object& o = GoF_Fixed_Singleton::instance();
+		stringstream ss;
 
 		boost::progress_timer t;
 		for (size_t i = 0; i < numCall; ++i) {
-			auto& p = GoF_Fixed_Singleton::instance();
+			ss << "p" << i;
+			auto& ss = GoF_Fixed_Singleton::instance();
 		}
 
 		cout << "Time for Gof Fixed to complete " << numCall << " times: ";
