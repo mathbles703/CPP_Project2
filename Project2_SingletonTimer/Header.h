@@ -11,5 +11,6 @@
 #include <boost/thread.hpp>
 #include <boost/progress.hpp>
 #include <iostream>
-
+#include <sstream>
+#include <iomanip>
 #endif

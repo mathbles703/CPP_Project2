@@ -1,7 +1,5 @@
 #include "Header.h"
 #include "Classes.h"
-#include <sstream>
-#include <iomanip>
 using namespace std;
 
 boost::scoped_ptr<BoostSingleton> BoostSingleton::_instance;
@@ -71,7 +69,7 @@ int main(int argc, char *argv[])
 	double worstTime = std::max({ boost_time, cpp0x_time, cpp11_time, gof_time });
 
 	///spacing for nice output
-	cout << endl;
+	cout << "\nCompared to the worst result("<< worstTime << " s)..." << "\n" << endl;
 	
 	//Vector will hold a pair
 	//Each pair will hold a string representing the specific singleton test variation title
