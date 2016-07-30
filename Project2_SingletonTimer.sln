@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project2_SingletonTimer", "Project2_SingletonTimer\Project2_SingletonTimer.vcxproj", "{8D1E44C7-5D24-43B8-B933-6D4F77566E82}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14A73D05-71DF-4969-838C-D448D1C2C7EB}"
+	ProjectSection(SolutionItems) = preProject
+		Answers.txt = Answers.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

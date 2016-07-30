@@ -1,0 +1,12 @@
+1. 
+In my testing I found a consistent pattern of the GoF_Fixed Singleton normally being the fastest by significant margins.
+This was generally followed by Boost, C++ 11 and C++ 0x being the slowest of the 4. The reason why C++ 0x is significantly slower than the others is due to its design.
+Although it is thread safe it comes at a cost. It may stop threads until the initial thread that requested the instance completes its task. Once it 
+completes, the remaining threads will continue and all instances will point to this created one. This can be heavy on resources.
+
+2.
+C++ 11 (static) implementation is good and is thread-safe on any compiler that supports the C++ 11 threading model.
+It is shorter and simpler but it is impossible to make it portably thread-safe for pre C++ 11 compilers.
+It uses lazy instantiation, properly destructs itself and doesn't use any mutexes or atomics. This is my preferred method
+however that would only apply for post C++ 11 compilers. If I had to pick one regarding pre C++ 11, I would choose Boost.
+It is thread-safe by using a double lock and is fast.
